@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wdmatch.c                                          :+:      :+:    :+:   */
+/*   snake_to_camel.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: garakizt <garakizt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/06 12:40:37 by arakiztain        #+#    #+#             */
-/*   Updated: 2026/01/07 10:35:48 by garakizt         ###   ########.fr       */
+/*   Created: 2026/01/07 10:49:06 by garakizt          #+#    #+#             */
+/*   Updated: 2026/01/07 10:55:24 by garakizt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-int main(int ac, char **av)
+int main(int ac, char *av[])
 {
-    if (ac == 3)
+    if (ac == 2)
     {
-        const char *s1 = av[1];
-        const char *s2 = av[2];
-        int len = 0, i = 0;
-        
-        while (s1[len])
-            len++;
-        while (i < len && *s2)
+        int i;
+
+        i = 0;
+        while (av[1][i])
         {
-            if (s1[i] == *s2++)
+            if (av[1][i] >= 97 && av[1][i] <= 122)
+                write(1, &av[1][i], 1);
+            else if (av[1][i] == '_')
+            {
                 i++;
+                av[1][i] = av[1][i] - 32;
+                write(1, &av[1][i], 1);
+            }
+            i++;
         }
-        if (i == len)
-            write(1, s1, len);
     }
     write(1, "\n", 1);
     return (0);
