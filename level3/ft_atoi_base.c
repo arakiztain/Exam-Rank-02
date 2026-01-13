@@ -10,50 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_atoi_base(const char *str, int str_base)
+int		nbr_inbase(char c, int base)
 {
-    int res = 0, sign = 1, i = 0;
-    while (isspace(str[i]))
-        i++;
-    if (str[i] == '+' && str[i + 1] != '-')
-        i++;
-    if (str[i] == '-')
-    {
-        sign = -1;
-        i++;
-    }    
-    while (str[i] && isvalid(str[i], str_base))
-    {
-        res *= str_base;
-        if (str[i] >= '0' && str[i] <= 9)
-            res += str[i] - '0';
-        else if (str[i] >= 'a' && str[i] <= 'f')
-            res += str[i] - 'a' + 10;
-        else if (str[i] >= 'A' && str[i] <= 'F')
-            res += str[i] - 'A' + 10;
-        i++;
-    }
-    return (res * sign);
+	if (base <= 10)
+		return (c >= '0' && c <= '9');
+	return ((c >= '0' && c <= '9') || (c >= 'A' && c <= ('A' + base - 10)) || (c >= 'a' && c <= ('a' + base - 10)));
 }
 
-int isvalid(int ch, int baselen)
+int		ft_atoi_base(const char *str, int base)
 {
-    char *lcbase = "0123456789abcdef";
-    char *ucbase = "0123456789ABCDEF";
-    int i = 0;
-    
-    while (i < baselen)
-    {
-        if (ch == lcbase[i] || ch == ucbase[i])
-            return (1);
-        i++;
-    }
-    return (0);
-}
+	int		i;
+	int		nbr;
+	int		sign;
 
-int isspace(int c)
-{
-     if (c == 9 || c == 10 || c == 11 || c == 12 || c == 13 || c == 32)
-         return (1);
-     return (0);
+	if (!str[0] || (base < 2 || base > 16))
+		return (0);
+	i = 0;
+    nbr = 0;
+	sign = 1;
+	while (str[i] >= 9 && str[i] <= 13)
+		i += 1;
+	while (str[i] == '+' || str[i] == '-')
+    {
+        if (str[i] == '-')
+            sign *= -1;
+    }
+	while (str[i] && nbr_inbase(str[i], base))
+	{
+		if (str[i] >= 'A' && str[i] <= 'F')
+			nbr = (nbr * base) + (str[i] - 'A' + 10);
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			nbr = (nbr * base) + (str[i] - 'a' + 10);
+		else
+			nbr = (nbr * base) + (str[i] - '0');
+		i += 1;
+	}
+	return (nbr * sign);
 }
