@@ -12,12 +12,21 @@
 
 #include <stdlib.h>
 
+#include <stdlib.h>
+
 int *ft_rrange(int start, int end)
 {
     int i = 0;
-    int len = (end - start) < 0 ? ((end - start) * -1) + 1 : (end - start) + 1;
-    int *range = (int *) malloc(len * sizeof(int));
-    
+    int len;
+    int *range;
+
+    if (end - start < 0)
+        len = (start - end) + 1;
+    else
+        len = (end - start) + 1;
+    range = (int *)malloc(len * sizeof(int));
+    if (!range)
+        return NULL;
     while (i < len)
     {
         if (end < start)
@@ -26,5 +35,6 @@ int *ft_rrange(int start, int end)
             range[i] = end--;
         i++;
     }
-    return (range);
+
+    return range;
 }
